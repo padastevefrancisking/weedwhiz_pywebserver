@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from waitress import serve
 import gdown
 import tensorflow as tf
 import numpy as np
@@ -106,7 +105,7 @@ def preprocess_image(image_file):
     tensor_image = np.expand_dims(tensor_image, axis=0)
     return tensor_image
 
-@app.route('/api', methods=['POST'])
+@app.route('/', methods=['POST'])
 def process_image():
     if 'image' not in request.files:
         return jsonify({'error': 'No image file part'}), 400
@@ -128,7 +127,3 @@ def process_image():
         'predicted_class_index': int(predicted_class_index),
         'confidence_score': float(confidence_score)
     })
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 50100))
-    serve(app, host='0.0.0.0', port=port, threads=4)
