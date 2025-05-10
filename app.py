@@ -148,3 +148,7 @@ def process_image():
         'predicted_class_index': int(predicted_class_index),
         'confidence_score': float(confidence_score)
     })
+
+if __name__ == "__main__":
+    import os
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
