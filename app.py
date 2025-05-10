@@ -7,6 +7,16 @@ from waitress import serve
 import cv2
 import os
 
+from tensorflow.python.framework import config as tf_config
+
+# Check available devices
+print("Devices available to TensorFlow:")
+for device in tf.config.list_physical_devices():
+    print(device)
+
+# Check the CPU instructions enabled (e.g., AVX2, AVX512)
+print("CPU features available:", tf_config.get_logical_devices())
+
 app = Flask(__name__)
 
 IMG_SIZE = (256, 256)
