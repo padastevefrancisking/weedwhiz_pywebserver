@@ -8,6 +8,8 @@ from waitress import serve
 import cv2
 import os
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 app = Flask(__name__)
 
 IMG_SIZE = (256, 256)
