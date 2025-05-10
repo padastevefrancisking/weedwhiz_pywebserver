@@ -21,18 +21,29 @@ MODEL_DIR = os.path.join(os.path.dirname(__file__), 'model')
 # Ensure model directory exists
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-if tf.config.list_physical_devices('GPU'):
-    print('GPU is available.')
-else:
-    print('GPU is not available.')
-
-# Function to download the model if it doesn't exist
 def download_model():
     model_path = os.path.join(MODEL_DIR, MODEL_FILE)
+    
+    print(f"Checking model at path: {model_path}")
+    
     if not os.path.exists(model_path):
         print(f'Model not found locally, downloading from Google Drive...')
-        gdown.download(MODEL_URL, model_path, quiet=False)
-    return load_model(model_path)
+        
+        try:
+            # Download model from Google Drive
+            gdown.download(MODEL_URL, model_path, quiet=False)
+            print(f"Model downloaded successfully to {model_path}")
+        except Exception as e:
+            print(f"Error downloading the model: {e}")
+            raise
+    
+    try:
+        # Load the model
+        print(f"Loading model from {model_path}")
+        return load_model(model_path)
+    except Exception as e:
+        print(f"Error loading the model: {e}")
+        raise
 
 # Load the model on server start
 model = download_model()
