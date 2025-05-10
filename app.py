@@ -26,8 +26,6 @@ if tf.config.list_physical_devices('GPU'):
 else:
     print('GPU is not available.')
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
 # Function to download the model if it doesn't exist
 def download_model():
     model_path = os.path.join(MODEL_DIR, MODEL_FILE)
