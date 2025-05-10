@@ -4,6 +4,7 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
+from waitress import serve
 import cv2
 import os
 
@@ -113,7 +114,6 @@ def process_image():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
     
-    print("File received")
 
     # Preprocess the image
     tensor_image = preprocess_image(file)
