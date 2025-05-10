@@ -15,7 +15,7 @@ for device in tf.config.list_physical_devices():
     print(device)
 
 # Check the CPU instructions enabled (e.g., AVX2, AVX512)
-print("CPU features available:", tf_config.get_logical_devices())
+print("CPU features available:", tf_config.list_logical_devices())
 
 app = Flask(__name__)
 
