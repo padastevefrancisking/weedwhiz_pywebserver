@@ -3,7 +3,6 @@ import gdown
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-from tensorflow.keras.models import load_model
 from waitress import serve
 import cv2
 import os
@@ -45,7 +44,7 @@ def download_model():
     # Try to load the model from the path
     try:
         print(f"Loading model from {model_path}")
-        return load_model(model_path)
+        return tf.keras.models.load_model(model_path)
     except Exception as e:
         print(f"Error loading the model: {e}")
         raise
