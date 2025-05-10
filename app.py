@@ -12,33 +12,38 @@ app = Flask(__name__)
 
 IMG_SIZE = (256, 256)
 
+# Model download settings
 MODEL_ID = '1BzSiFrNv5QI_-Ehea22gLHOlSzxATUzO'  # Replace with your actual Google Drive file ID
 MODEL_FILE = 'Test10.keras'
 MODEL_URL = f'https://drive.google.com/uc?id={MODEL_ID}'
-
-MODEL_DIR = os.path.join(os.path.dirname(__file__), 'model')
+MODEL_DIR = os.path.join(os.getcwd(), 'model')  # Use current working directory to construct the path
 
 # Ensure model directory exists
 os.makedirs(MODEL_DIR, exist_ok=True)
 
+# Function to download the model if it doesn't exist
 def download_model():
+    # Full path to the model file
     model_path = os.path.join(MODEL_DIR, MODEL_FILE)
     
+    # Debugging: Print current working directory
+    print("Current working directory:", os.getcwd())
     print(f"Checking model at path: {model_path}")
     
+    # Check if the model file exists locally
     if not os.path.exists(model_path):
         print(f'Model not found locally, downloading from Google Drive...')
         
         try:
-            # Download model from Google Drive
+            # Download the model from Google Drive
             gdown.download(MODEL_URL, model_path, quiet=False)
             print(f"Model downloaded successfully to {model_path}")
         except Exception as e:
             print(f"Error downloading the model: {e}")
             raise
     
+    # Try to load the model from the path
     try:
-        # Load the model
         print(f"Loading model from {model_path}")
         return load_model(model_path)
     except Exception as e:
