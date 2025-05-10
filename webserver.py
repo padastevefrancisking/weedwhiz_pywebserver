@@ -1,12 +1,10 @@
 from flask import Flask, request, jsonify
 from waitress import serve
 import gdown
-from concurrent.futures import thread
 import tensorflow as tf
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
-import io
 import cv2
 import os
 
@@ -29,7 +27,7 @@ def download_model():
     if not os.path.exists(model_path):
         print(f'Model not found locally, downloading from Google Drive...')
         gdown.download(MODEL_URL, model_path, quiet=False)
-    return tf.keras.models.load_model(model_path)
+    return load_model(model_path)
 
 # Load the model on server start
 model = download_model()
@@ -131,8 +129,6 @@ def process_image():
         'confidence_score': float(confidence_score)
     })
 
-
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 50100))
     serve(app, host='0.0.0.0', port=port, threads=4)
-
