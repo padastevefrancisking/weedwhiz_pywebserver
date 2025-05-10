@@ -8,8 +8,6 @@ from waitress import serve
 import cv2
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
 app = Flask(__name__)
 
 IMG_SIZE = (256, 256)
@@ -22,6 +20,13 @@ MODEL_DIR = os.path.join(os.path.dirname(__file__), 'model')
 
 # Ensure model directory exists
 os.makedirs(MODEL_DIR, exist_ok=True)
+
+if tf.config.list_physical_devices('GPU'):
+    print('GPU is available.')
+else:
+    print('GPU is not available.')
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 # Function to download the model if it doesn't exist
 def download_model():
